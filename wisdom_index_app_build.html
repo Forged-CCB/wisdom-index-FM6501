@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Wisdom Index (Proverbs)</title>
+<style>
+  body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; }
+  h1 { margin: 0 0 6px 0; font-size: 22px; }
+  .sub { margin: 0 0 18px 0; color: #555; }
+  .controls { display: grid; grid-template-columns: 1fr; gap: 10px; max-width: 1100px; }
+  @media (min-width: 900px) { .controls { grid-template-columns: 1.2fr 1fr 1fr 1fr; } }
+  input, select { padding: 10px 12px; font-size: 14px; border: 1px solid #ccc; border-radius: 10px; }
+  .meta { margin: 14px 0 10px 0; color: #555; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  table { width: 100%; border-collapse: collapse; max-width: 1200px; }
+  th, td { text-align: left; padding: 10px 8px; vertical-align: top; border-bottom: 1px solid #eee; }
+  th { position: sticky; top: 0; background: white; z-index: 1; }
+  a { color: inherit; }
+  a:hover { text-decoration: underline; }
+  .pill { display:inline-block; padding: 2px 8px; border-radius: 999px; border: 1px solid #ddd; font-size: 12px; color:#444; }
+  .small { font-size: 12px; color:#666; }
+  .footer { margin-top: 18px; font-size: 12px; color:#666; }
+  .error { margin-top: 14px; padding: 10px 12px; border: 1px solid #f3c2c2; background: #fff7f7; border-radius: 10px; color: #7a1f1f; display:none; }
+</style>
+</head>
+<body>
+  <h1>Wisdom Index (Proverbs)</h1>
+  <p class="sub">Search by topic (principle) or keywords in the action summary. Click a verse to open it online.</p>
+
+  <div class="controls">
+    <input id="q" type="search" placeholder="Search keywords (e.g., diligent, anger, money)"/>
+    <select id="topic">
+      <option value="">All topics</option>
+    </select>
+    <select id="version">
+      <option value="ESV">Bible link: ESV (BibleGateway)</option>
+      <option value="NIV">Bible link: NIV (BibleGateway)</option>
+      <option value="NKJV">Bible link: NKJV (BibleGateway)</option>
+      <option value="KJV">Bible link: KJV (BibleGateway)</option>
+      <option value="NASB">Bible link: NASB (BibleGateway)</option>
+    </select>
+    <select id="sort">
+      <option value="topic">Sort: Topic (A→Z)</option>
+      <option value="count">Sort: Topic Count (high→low)</option>
+      <option value="verse">Sort: Verse</option>
+    </select>
+  </div>
+
+  <div class="meta" id="meta"></div>
+  <div class="error" id="errbox"></div>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 22%;">Topic</th>
+        <th style="width: 12%;">Verse</th>
+        <th>Action Summary</th>
+        <th style="width: 14%;">Topic Count</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+<script>
+try {
+  const DATA = [{"Verse": "12:24", "Principle": "Authority", "ActionSummary": "Authority is given to the diligent, and forced labor for the slacker"}, {"Verse": "10:19", "Principle": "Avoiding Transgression", "ActionSummary": "Avoiding transgression comes from restraining ones speech."}, {"Verse": "10:18", "Principle": "Building Up Of Others", "ActionSummary": "Hatred and slander work against the building up others"}, {"Verse": "10:20", "Principle": "Building Up Of Others", "ActionSummary": "Building up others results from the words of the righteous."}, {"Verse": "10:21", "Principle": "Building Up Of Others", "ActionSummary": "Building up others results from the words of the righteous and those with understanding."}, {"Verse": "11:30", "Principle": "Building Up Of Others", "ActionSummary": "The fruit of the righteous works to the building up of others (Ryrie says not salvation in this context but attracting and imparting wisdom)"}, {"Verse": "12:12", "Principle": "Building Up Of Others", "ActionSummary": "The righteous yield their own fruit but the wicked want what others have"}, {"Verse": "12:16", "Principle": "Building Up Of Others", "ActionSummary": "The prudent carefully thinks things through for the best response rather than the impulsive rage of the fool (Building up of others)."}, {"Verse": "12:23", "Principle": "Building Up Of Others", "ActionSummary": "Those who are careful as to the outcome of their action (prudent) refrain from spewing their knowledge, whereas fools proclaim their weakness of intellect. (To the building up of others or the situation at hand)"}, {"Verse": "12:25", "Principle": "Building Up Of Others", "ActionSummary": "A good word turns the anxious heart to a glad heart."}, {"Verse": "12:4", "Principle": "Building Up Of Others", "ActionSummary": "An excellent wife, brings happiness, strength and honor to her husband. Building up of others."}, {"Verse": "13:5", "Principle": "Building Up Of Others", "ActionSummary": "The righteous hate falsehood (to the building up of others), but the wicked love it and act it out in disgusting and shameful ways."}, {"Verse": "12:27", "Principle": "Completion", "ActionSummary": "Often diligence is most needed quality(precious) to see a matter through."}, {"Verse": "12:9", "Principle": "Contentment", "ActionSummary": "Contentment and honesty in humble circumstances has its true reward in contrast with those who pretend and lack bread."}, {"Verse": "11:21", "Principle": "Deliverance", "ActionSummary": "Deliverance comes to the descendants of the righteous, punishment for the evil man"}, {"Verse": "11:4", "Principle": "Deliverance", "ActionSummary": "Righteousness delivers from death"}, {"Verse": "11:6", "Principle": "Deliverance", "ActionSummary": "The righteousness of the upright will deliver, but the treacherous are caught by their own greed."}, {"Verse": "11:8", "Principle": "Deliverance", "ActionSummary": "The righteous experience deliverance from trouble, of which the wicked gravitate to."}, {"Verse": "11:9", "Principle": "Deliverance", "ActionSummary": "Through knowledge, the righteous will be delivered from the lies of the godless."}, {"Verse": "11:23", "Principle": "Desiring Good", "ActionSummary": "The righteous desire only that which is good, whereas the evil resign to receive wrath."}, {"Verse": "15:1", "Principle": "Diffusing Anger", "ActionSummary": "A gentle response diffuses violent anger and indignation, but a harsh word stirs it up."}, {"Verse": "12:19", "Principle": "Establishment", "ActionSummary": "Those who speak truthfully will be established forever as opposed to liars who will disappear."}, {"Verse": "12:3", "Principle": "Establishment", "ActionSummary": "Righteousness establishes a man as opposed to the wicked who will not be established."}, {"Verse": "10:6", "Principle": "Favor", "ActionSummary": "The righteous receive favor from others"}, {"Verse": "11:26", "Principle": "Favor", "ActionSummary": "Favor comes to those who don’t withhold for their own personal gain (market manipulation)."}, {"Verse": "11:27", "Principle": "Favor", "ActionSummary": "Favor comes to those who diligently seek good, and evil for those that seek evil"}, {"Verse": "12:2", "Principle": "Favor", "ActionSummary": "God’s favor is given to good men, but His condemnation to those who devise evil."}, {"Verse": "12:8", "Principle": "Favor", "ActionSummary": "Favor is gained by insight, unlike those who distort"}, {"Verse": "13:15", "Principle": "Favor", "ActionSummary": "Favor comes to those with good understanding."}, {"Verse": "14:2", "Principle": "Fear Of The Lord", "ActionSummary": "How we live shows whether we fear and love the Lord, or despise Him."}, {"Verse": "11:28", "Principle": "Flourishing", "ActionSummary": "The righteous who trust God will flourish, but those that trust in riches will fall."}, {"Verse": "12:14", "Principle": "Fruitfulness", "ActionSummary": "Fruitfulness in good words and deeds satisfy"}, {"Verse": "13:2", "Principle": "Fruitfulness", "ActionSummary": "Fruitfulness in good words satisfy. The treacherous desire and are satisfied by violence."}, {"Verse": "10:3", "Principle": "Fulfillment", "ActionSummary": "Fulfillment of the soul is from God"}, {"Verse": "11:1", "Principle": "God'S Delight", "ActionSummary": "Delighting God comes by being fair to others"}, {"Verse": "11:20", "Principle": "God'S Delight", "ActionSummary": "The blameless in their walk are God’s delight, unlike those with distorted hearts which the Lord hates."}, {"Verse": "12:22", "Principle": "God'S Delight", "ActionSummary": "Those that deal faithfully (w/truthfulness) are God’s delight, unlike liars which the Lord hates."}, {"Verse": "11:3", "Principle": "Guidance", "ActionSummary": "Guidance comes to the upright who walk in integrity."}, {"Verse": "12:26", "Principle": "Guidance", "ActionSummary": "The way of the righteous provide guidance, but the way of the wicked leads people astray."}, {"Verse": "12:18", "Principle": "Healing", "ActionSummary": "The words of the wise bring healing as opposed to those who speak rashly and cut deeply."}, {"Verse": "13:17", "Principle": "Healing", "ActionSummary": "Faithful messengers bring healing, not so for wicked messengers who fall into trouble."}, {"Verse": "11:16", "Principle": "Honor", "ActionSummary": "A gracious woman attains honor, whereas evil men in their lust for attaining riches could care less about it."}, {"Verse": "11:2", "Principle": "Honor", "ActionSummary": "Honor come from being humble"}, {"Verse": "13:18", "Principle": "Honor", "ActionSummary": "Honor comes to those who regard training and correction, poverty and shame for those who do not."}, {"Verse": "10:28", "Principle": "Hope", "ActionSummary": "The righteous have hope and gladness, unlike the wicked who have no hope."}, {"Verse": "11:7", "Principle": "Hope", "ActionSummary": "The wicked who rely on their own strength have no lasting hope."}, {"Verse": "12:7", "Principle": "House That Stands", "ActionSummary": "The house of the righteous will stand. House that stands. Whereas the wicked will be overthrown."}, {"Verse": "12:5", "Principle": "Just Thoughts", "ActionSummary": "The righteous have just thoughts, unlike the wicked who are deceptive"}, {"Verse": "12:1", "Principle": "Keeping On The Path Of Life", "ActionSummary": "Keeping on the path of life by loving training and correction"}, {"Verse": "12:15", "Principle": "Keeping On The Path Of Life", "ActionSummary": "Keeping on the path of life is to the wise who listen to and values counsel and knows that his way is not always the best."}, {"Verse": "12:28", "Principle": "Keeping On The Path Of Life", "ActionSummary": "Walking in the way of righteousness keeps one on the path of life"}, {"Verse": "13:1", "Principle": "Keeping On The Path Of Life", "ActionSummary": "Keeping on the path of life by accepting instruction and correction"}, {"Verse": "13:10", "Principle": "Keeping On The Path Of Life", "ActionSummary": "Keeping on the path of life is to the wise who refrain from pride and listen to and value counsel. They know that their way is not always the best. (See 12:15)"}, {"Verse": "14:6", "Principle": "Knowledge", "ActionSummary": "Gaining knowledge is easy to those with understanding, but the scoffer (mocks, derides or scorns) finds none."}, {"Verse": "10:7", "Principle": "Legacy", "ActionSummary": "The righteous have a rich legacy"}, {"Verse": "10:27", "Principle": "Life", "ActionSummary": "Longer life for those who fear the Lord."}, {"Verse": "11:19", "Principle": "Life", "ActionSummary": "The steadfast in righteousness will attain to life, unlike those who pursue evil, death."}, {"Verse": "13:9", "Principle": "Light And Joy", "ActionSummary": "The light and joy of the righteous burns brightly, but burns out for the wicked"}, {"Verse": "13:24", "Principle": "Love - Showing It", "ActionSummary": "It is a loving action to diligently discipline sons, and actually hateful to not."}, {"Verse": "10:5", "Principle": "Opportunity", "ActionSummary": "Wisdom in seizing opportunity and shame when we don't"}, {"Verse": "13:23", "Principle": "Opportunity", "ActionSummary": "Injustice whether by others, or one's self, obstructs opportunity"}, {"Verse": "10:24", "Principle": "Optimism", "ActionSummary": "The righteous live with optimism that God will fulfill His promises of blessing, unlike the wicked who live with fear of what God will do to them."}, {"Verse": "10:10", "Principle": "Peace", "ActionSummary": "Peace is not on those that make light of wickedness and folly, nor to those who don’t know when to be quiet. (See 10:8)"}, {"Verse": "10:12", "Principle": "Peaceable", "ActionSummary": "Forgiveness results in peace with others"}, {"Verse": "12:20", "Principle": "Peaceable", "ActionSummary": "The peaceable have joy in their hearts, unlike those who devise evil, deceit."}, {"Verse": "10:22", "Principle": "Prosperity", "ActionSummary": "The Lord is the source of our prosperity and not our own desperate efforts."}, {"Verse": "10:4", "Principle": "Prosperity", "ActionSummary": "Financial strength in diligence"}, {"Verse": "11:15", "Principle": "Prosperity", "ActionSummary": "Financial protection results when one refrains from being surety to a stranger and even hates the idea."}, {"Verse": "11:24", "Principle": "Prosperity", "ActionSummary": "Financial gain comes to those who are generous and liberally risk wealth and are not stingy. Financial stability comes to those who are generous and liberally risk wealth and are not stingy."}, {"Verse": "11:25", "Principle": "Prosperity", "ActionSummary": "Prosperity comes to the generous who bless others."}, {"Verse": "11:29", "Principle": "Prosperity", "ActionSummary": "Family estates strength can be drained by family members who trouble it and then become servant to the wise."}, {"Verse": "12:11", "Principle": "Prosperity", "ActionSummary": "Financial security comes from working and not pursuing vain things."}, {"Verse": "13:11", "Principle": "Prosperity", "ActionSummary": "Gathering by labor is the way to wealth, but fraud dwindles it."}, {"Verse": "13:21", "Principle": "Prosperity", "ActionSummary": "Prosperity comes to the righteous, but trouble for sinners"}, {"Verse": "13:22", "Principle": "Prosperity", "ActionSummary": "Righteous, good men leave their wealth to their grandkids, and eventually even receives the wealth of the sinner."}, {"Verse": "10:15", "Principle": "Protection", "ActionSummary": "Wealth can provide a level of protection against financial setbacks and instability."}, {"Verse": "10:29", "Principle": "Protection", "ActionSummary": "God’s ways are protection to the upright but will bring those who don’t live by them to ruin."}, {"Verse": "11:13", "Principle": "Protection", "ActionSummary": "Being trustworthy by keeping secrets and concealing matters (from those who are not part of the solution), protects others from harm"}, {"Verse": "11:3", "Principle": "Protection", "ActionSummary": "Preservation comes to the upright who walk in integrity."}, {"Verse": "12:13", "Principle": "Protection", "ActionSummary": "The righteous escape from trouble (protection) by speaking truth and guarding their tongue whereas the lying and false speech of the wicked will be ensnared."}, {"Verse": "12:17", "Principle": "Protection", "ActionSummary": "Protection of others comes from truthful testimony."}, {"Verse": "12:21", "Principle": "Protection", "ActionSummary": "The righteous are afforded protection in trouble, whereas the wicked are on their own."}, {"Verse": "12:6", "Principle": "Protection", "ActionSummary": "The upright work to protect others by their words as opposed to the words of the wicked who lie in wait for blood."}, {"Verse": "13:3", "Principle": "Protection", "ActionSummary": "Guarding our words preserves our life from trouble, but ruin comes to those with many words."}, {"Verse": "13:6", "Principle": "Protection", "ActionSummary": "Righteous living of the blameless affords protection from trouble, but wickedness of sinners ruins them."}, {"Verse": "14:3", "Principle": "Protection", "ActionSummary": "The words of the wise preserve, but the words of the prideful foolish one result in punishment."}, {"Verse": "11:31", "Principle": "Reward", "ActionSummary": "The righteous receive a reward in this earth, and also the wicked, but a different reward. (Reaping destruction)"}, {"Verse": "13:13", "Principle": "Reward", "ActionSummary": "Reward comes to those who honor God’s law, and indebtedness to those who despise it"}, {"Verse": "14:4", "Principle": "Reward", "ActionSummary": "The way to reward is not always without some disorder."}, {"Verse": "13:7", "Principle": "Reward - Eternal", "ActionSummary": "Eternal rewards obtained by sacrificial giving (pretends to be poor) are true riches and material riches stored up in this life (pretends to be rich) are worth nothing in the next."}, {"Verse": "13:8", "Principle": "Riches - Danger Of", "ActionSummary": "Riches have their own set of dangers and trouble that the poor are not exposed to."}, {"Verse": "13:25", "Principle": "Satisfaction", "ActionSummary": "The righteous work to have enough to satisfy their appetite, whereas the wicked are never satisfied."}, {"Verse": "13:4", "Principle": "Satisfaction", "ActionSummary": "Abundant satisfaction comes from diligence, but dissatisfaction and emptiness to the sluggard."}, {"Verse": "10:2", "Principle": "Security", "ActionSummary": "Our security is being right with God."}, {"Verse": "10:25", "Principle": "Security", "ActionSummary": "The righteous enjoy stability and strength against the storms of life."}, {"Verse": "10:9", "Principle": "Security", "ActionSummary": "Security to those who walk in integrity and righteousness"}, {"Verse": "11:5", "Principle": "Smoother Path", "ActionSummary": "The righteousness of the blameless provide a smoother path, but the wicked create more obstacles for themself by their own wickedness."}, {"Verse": "10:14", "Principle": "Stability", "ActionSummary": "Stability come to those who increase in and speak from knowledge."}, {"Verse": "10:30", "Principle": "Stability", "ActionSummary": "The righteous enjoy stability, whereas the wicked are uprooted"}, {"Verse": "10:14", "Principle": "Strength", "ActionSummary": "Strength come to those who increase in and speak from knowledge."}, {"Verse": "14:1", "Principle": "Strength", "ActionSummary": "A wise woman strengthens her house, but when foolish personally tear it down."}, {"Verse": "11:22", "Principle": "True Beauty", "ActionSummary": "True beauty carefully weighs what is correct and proper, without which is repulsive"}, {"Verse": "11:18", "Principle": "True Reward", "ActionSummary": "A true reward is for those who sow righteousness. Not so for the wicked who are deceived on the value of their wages."}, {"Verse": "11:4", "Principle": "True Riches", "ActionSummary": "Riches do not profit when the Lord returns in judgment."}, {"Verse": "10:23", "Principle": "Understanding", "ActionSummary": "The understanding value wisdom (consider the exercising of wisdom as entertainment and work to get better at it)."}, {"Verse": "11:14", "Principle": "Victory", "ActionSummary": "Victory results when there is ample guidance by many counselors"}, {"Verse": "12:10", "Principle": "Wellbeing (Beasts)", "ActionSummary": "The righteous have regard for the wellbeing of their beasts, whereas the wicked are cruel."}, {"Verse": "10:1", "Principle": "Wellbeing (Others)", "ActionSummary": "Wise living results in the wellbeing of others"}, {"Verse": "10:11", "Principle": "Wellbeing (Others)", "ActionSummary": "The words of the righteous result in the wellbeing of others, whereas the wicked spew harm with their words(see 10:6)"}, {"Verse": "10:26", "Principle": "Wellbeing (Others)", "ActionSummary": "Lazy workers are an irritation and disappointment to their managers, working against the wellbeing of others."}, {"Verse": "10:32", "Principle": "Wellbeing (Others)", "ActionSummary": "The speech of the righteous work to please and gratify others, whereas distortion and wrong from the speech of the wicked."}, {"Verse": "11:10", "Principle": "Wellbeing (Others)", "ActionSummary": "Community wellbeing results when it goes well with the righteous and when the wicked perish"}, {"Verse": "11:11", "Principle": "Wellbeing (Others)", "ActionSummary": "Community wellbeing results from the blessings of the upright."}, {"Verse": "11:12", "Principle": "Wellbeing (Others)", "ActionSummary": "To the understanding, community wellbeing compels him to overlook his neighbors agitations."}, {"Verse": "13:14", "Principle": "Wellbeing (Others)", "ActionSummary": "The teaching of the wise result in the wellbeing of others to turn them away from things that lead to death."}, {"Verse": "13:16", "Principle": "Wellbeing (Others)", "ActionSummary": "All who are careful as to the outcome of their action (the prudent) act with knowledge, for the wellbeing of others, unlike fools who engage in folly (absurd acts which are highly sinful; and conduct contrary to the laws of God or man; and that violate moral precepts)."}, {"Verse": "14:5", "Principle": "Wellbeing (Others)", "ActionSummary": "A faithful witness speaks truth, but a false one, lies."}, {"Verse": "10:16", "Principle": "Wellbeing (Personal)", "ActionSummary": "Righteousness is rewarded with wellbeing."}, {"Verse": "10:17", "Principle": "Wellbeing (Personal)", "ActionSummary": "Obedience and learning from mistakes lead to our wellbeing"}, {"Verse": "11:17", "Principle": "Wellbeing (Personal)", "ActionSummary": "Personal wellbeing comes from being merciful rather than cruel."}, {"Verse": "13:12", "Principle": "Wellbeing (Personal)", "ActionSummary": "The wellbeing of the heart is impacted by hope realized and desire fulfilled."}, {"Verse": "13:19", "Principle": "Wellbeing (Personal)", "ActionSummary": "Receiving a desired thing is sweetness to the soul. Fools are too preoccupied with their evil to enjoy these things."}, {"Verse": "10:8", "Principle": "Wisdom", "ActionSummary": "A wise heart is on the subordinate and to those who know when to be quiet."}, {"Verse": "11:2", "Principle": "Wisdom", "ActionSummary": "Wisdom come from being humble"}, {"Verse": "13:20", "Principle": "Wisdom", "ActionSummary": "Wisdom comes by walking with wise men, whereas harm to the companion of fools."}, {"Verse": "14:6", "Principle": "Wisdom", "ActionSummary": "Gaining wisdom is easy to those with understanding, but the scoffer (mocks, derides or scorns) finds none."}, {"Verse": "15:33", "Principle": "Wisdom", "ActionSummary": "Attaining wisdom by the fear of the Lord and honor by humility."}, {"Verse": "10:13", "Principle": "Wisdom - Words Of", "ActionSummary": "Words of wisdom come from those with discernment and understanding"}, {"Verse": "10:31", "Principle": "Wisdom - Words Of", "ActionSummary": "God will give the righteous words of wisdom, but will hinder the words of distorters."}];
+
+  function escapeHtml(s) {
+    return String(s)
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  function uniq(arr) {
+    return Array.from(new Set(arr)).sort((a,b)=>a.localeCompare(b));
+  }
+
+  function verseUrl(verse, version) {
+    const q = `Proverbs ${verse}`;
+    const url = new URL("https://www.biblegateway.com/passage/");
+    url.searchParams.set("search", q);
+    url.searchParams.set("version", version);
+    return url.toString();
+  }
+
+  // Auto-calculate topic counts
+  const topicCounts = {};
+  DATA.forEach(r => {
+    const t = r.Principle;
+    topicCounts[t] = (topicCounts[t] || 0) + 1;
+  });
+
+  // Populate topic dropdown with counts
+  const topicSelect = document.getElementById('topic');
+  uniq(DATA.map(d => d.Principle)).forEach(t => {
+    const opt = document.createElement('option');
+    opt.value = t;
+    opt.textContent = `${t} (${topicCounts[t]})`;
+    topicSelect.appendChild(opt);
+  });
+
+  const qInput = document.getElementById('q');
+  const sortSelect = document.getElementById('sort');
+  const versionSelect = document.getElementById('version');
+  const meta = document.getElementById('meta');
+  const tbody = document.getElementById('rows');
+
+  function render() {
+    const q = qInput.value.trim().toLowerCase();
+    const topic = topicSelect.value;
+    const sortMode = sortSelect.value;
+    const version = versionSelect.value;
+
+    let rows = DATA.filter(r => {
+      const inTopic = !topic || r.Principle === topic;
+      const inQ = !q || (
+        r.Principle.toLowerCase().includes(q) ||
+        r.ActionSummary.toLowerCase().includes(q) ||
+        String(r.Verse).includes(q)
+      );
+      return inTopic && inQ;
+    });
+
+    if (sortMode === 'count') {
+      rows.sort((a,b)=> (topicCounts[b.Principle] - topicCounts[a.Principle]) ||
+                        a.Principle.localeCompare(b.Principle) ||
+                        a.Verse.localeCompare(b.Verse));
+    } else if (sortMode === 'verse') {
+      rows.sort((a,b)=> {
+        const pa = String(a.Verse).split(':').map(Number);
+        const pb = String(b.Verse).split(':').map(Number);
+        return (pa[0]-pb[0]) || (pa[1]-pb[1]) || a.Principle.localeCompare(b.Principle);
+      });
+    } else {
+      rows.sort((a,b)=> a.Principle.localeCompare(b.Principle) || a.Verse.localeCompare(b.Verse));
+    }
+
+    meta.innerHTML = `<span class="pill">${rows.length} result(s)</span>
+                      <span class="small">• Topic counts are auto-calculated</span>
+                      <span class="small">• Click a verse to open it (new tab)</span>`;
+
+    tbody.innerHTML = "";
+    rows.forEach(r => {
+      const t = r.Principle;
+      const v = String(r.Verse);
+      const link = verseUrl(v, version);
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${escapeHtml(t)}</td>
+        <td><a href="${link}" target="_blank" rel="noopener noreferrer">Prov. ${escapeHtml(v)}</a></td>
+        <td>${escapeHtml(r.ActionSummary)}</td>
+        <td>${topicCounts[t]}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  ['input','change'].forEach(ev => {
+    qInput.addEventListener(ev, render);
+    topicSelect.addEventListener(ev, render);
+    sortSelect.addEventListener(ev, render);
+    versionSelect.addEventListener(ev, render);
+  });
+
+  render();
+} catch (e) {
+  const box = document.getElementById('errbox');
+  box.style.display = "block";
+  box.textContent = "This page hit an error while loading the data: " + (e && e.message ? e.message : String(e));
+}
+</script>
+
+  <div class="footer">
+    <div>This page runs fully offline once saved. Verse links require internet access.</div>
+  </div>
+</body>
+</html>
