@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in · Forge and Field</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#141518);--ink:light-dark(#1c1d21,#ecebe6);--mute:light-dark(#5b5d63,#a7a8a3);--line:light-dark(#e3e1da,#30323a);--panel:light-dark(#f6f4ee,#1c1e22);--ember:light-dark(#c9411a,#f0683c);--wheat:light-dark(#ecdcae,#3a3322)}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 "Source Sans 3",system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column}
+header{background:var(--wheat);padding:14px 16px}
+h1{font-family:Archivo,system-ui,sans-serif;font-weight:800;letter-spacing:-.02em;font-size:22px;margin:0}
+main{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:48px 16px}
+form{width:100%;max-width:360px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px}
+h2{font-family:Archivo,system-ui,sans-serif;font-size:20px;margin:0 0 16px}
+label{display:block;font-size:14px;font-weight:600;color:var(--mute);margin:12px 0 4px}
+input{font:inherit;font-size:16px;color:inherit;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px;width:100%}
+input:focus-visible,button:focus-visible{outline:2px solid var(--ember);outline-offset:1px}
+button{margin-top:20px;width:100%;min-height:44px;border:0;border-radius:8px;background:var(--ember);color:#fff;font:inherit;font-weight:700;cursor:pointer}
+button:disabled{opacity:.6}
+.err{color:var(--ember);font-weight:600;min-height:1.5em;margin:12px 0 0}
+.note{color:var(--mute);font-size:14px;margin:16px 0 0}
+</style>
+</head>
+<body>
+<header><h1>Forge and Field</h1></header>
+<main>
+<form id="f">
+  <h2>Sign in</h2>
+  <label for="email">Email</label>
+  <input id="email" type="email" autocomplete="username" required>
+  <label for="pw">Password</label>
+  <input id="pw" type="password" autocomplete="current-password" required>
+  <button id="go" type="submit">Sign in</button>
+  <p class="err" id="err" role="alert"></p>
+  <p class="note">Accounts are by invitation. Ask the person who runs this app to set one up for you.</p>
+</form>
+</main>
+<script>
+document.getElementById('f').addEventListener('submit', async e => {
+  e.preventDefault();
+  const go = document.getElementById('go'), err = document.getElementById('err');
+  go.disabled = true; err.textContent = '';
+  try {
+    const r = await fetch('/api/login', {
+      method: 'POST', credentials: 'same-origin',
+      headers: { 'content-type': 'application/json', 'x-ff': '1' },
+      body: JSON.stringify({ email: document.getElementById('email').value, password: document.getElementById('pw').value })
+    });
+    const j = await r.json().catch(() => ({}));
+    if (r.ok) { location.href = '/'; return; }
+    err.textContent = j.error || 'Sign in did not work. Try again.';
+  } catch (x) { err.textContent = 'The server could not be reached.'; }
+  go.disabled = false;
+});
+</script>
+</body>
+</html>

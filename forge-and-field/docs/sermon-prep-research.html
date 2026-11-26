@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sermon Prep Research</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE  work document: a research brief John keeps and builds the app spec from
+   IDEA   a blacksmith's pattern board: each sermon method drawn as a shaped bar of stages
+   PICTURE "Sermon shapes": every framework as a row of stage blocks, sized by weight, coloured trouble→grace
+   COLOUR white ground, iron ink #1c1d21, ember #d4471c accent, field wheat #ecdcae and sage #6f8a5a support; night iron
+   TYPE   Archivo 800 display + Source Sans 3 text
+   LAYOUT title and finding across the top, shapes full width beneath, then sections in two-column grids that stack under 600px */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#141518);--ink:light-dark(#1c1d21,#ecebe6);--mute:light-dark(#5b5d63,#a7a8a3);--line:light-dark(#e3e1da,#2c2e33);--panel:light-dark(#f6f4ee,#1c1e22);--ember:light-dark(#d4471c,#f0683c);--wheat:light-dark(#ecdcae,#4a4128);--sage:light-dark(#6f8a5a,#8fae78);--sageS:light-dark(#dfe8d6,#28331f);--emberS:light-dark(#f8ddd2,#3d2219)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16.5px/1.6 "Source Sans 3",system-ui,sans-serif;overflow-x:clip}
+.band{padding-block:clamp(28px,4vw,56px);padding-left:max(5vw,16px);padding-right:max(5vw,16px)}
+.wrap{max-width:1240px;margin:0 auto}
+h1,h2,h3{font-family:Archivo,system-ui,sans-serif;letter-spacing:-.02em;line-height:1.08;text-wrap:balance;margin:0}
+h1{font-size:clamp(32px,5vw,50px);font-weight:800}
+h2{font-size:clamp(24px,3vw,32px);font-weight:800;margin-bottom:10px}
+h3{font-size:19px;font-weight:700;margin-bottom:6px}
+p{margin:0 0 12px;max-width:72ch}
+.lede{font-size:19px;max-width:66ch;margin-top:14px}
+.top{background:var(--wheat)}
+.nav{display:flex;gap:8px;overflow-x:auto;padding:10px max(5vw,16px);border-bottom:1px solid var(--line);background:var(--bg)}
+.nav a{flex:none;color:var(--ink);text-decoration:none;font-weight:600;font-size:15px;padding:8px 12px;border-radius:999px;border:1px solid var(--line)}
+.nav a:hover,.nav a:focus-visible{border-color:var(--ember);outline:none}
+@media(min-width:900px){.nav{position:sticky;top:0;z-index:5}}
+.shapes{margin-top:26px;display:grid;gap:12px}
+.row{display:grid;grid-template-columns:minmax(9em,14em) minmax(0,1fr);gap:14px;align-items:center}
+.row b{font-family:Archivo,sans-serif;font-size:15px;line-height:1.2}
+.row b small{display:block;font-family:"Source Sans 3",sans-serif;font-weight:400;color:var(--mute);font-size:13px}
+.bar{display:flex;gap:3px;min-height:46px}
+.seg{display:flex;align-items:center;justify-content:center;text-align:center;padding:4px 6px;font-size:13.5px;font-weight:600;line-height:1.15;border-radius:4px;color:#1c1d21}
+.t{background:#e9a184}.g{background:#b9cfa6}.n{background:#ffffff;border:1px solid #c9c3b2}.k{background:var(--ember);color:#fff}
+.key{display:flex;flex-wrap:wrap;gap:16px;margin-top:14px;font-size:14px;color:var(--mute)}
+.key span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.key .kt::before{background:#e9a184}.key .kg::before{background:#b9cfa6}.key .kn::before{background:#fff;border:1px solid #c9c3b2}.key .kk::before{background:var(--ember)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
+.card ol,.card ul{margin:6px 0 10px;padding-left:20px}
+.card li{margin-bottom:4px}
+.fit{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:15px}
+.fit strong{color:var(--ember)}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:15.5px}
+th{text-align:left;font-family:Archivo,sans-serif;font-size:14px;padding:10px 12px;border-bottom:2px solid var(--ink)}
+td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+td:first-child{font-weight:700;white-space:nowrap}
+.alt{background:var(--panel)}
+.survey{display:grid;gap:8px;margin:14px 0 6px;max-width:640px}
+.sv{display:grid;grid-template-columns:10em minmax(0,1fr) 3em;gap:10px;align-items:center;font-size:15px}
+.sv i{display:block;height:18px;background:var(--sage);border-radius:3px}
+.sv em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+.note{font-size:14px;color:var(--mute)}
+.tips{counter-reset:t;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 28px;padding:0;margin:0;list-style:none}
+.tips li{padding-left:0}
+.tips b{display:block;font-family:Archivo,sans-serif}
+.ph{display:inline-block;font-size:13px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.p1{background:var(--sageS);color:var(--ink)}.p2{background:var(--emberS);color:var(--ink)}
+.bb-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.blk{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--bg);border:1px solid var(--line);border-left:5px solid var(--sage);border-radius:8px;padding:10px 12px;color:var(--ink)}
+.blk.t{border-left-color:#e9a184}.blk.k{border-left-color:var(--ember)}
+.blk small{display:block;color:var(--mute);font-size:13px}
+.blk b{font-family:Archivo,sans-serif;font-size:15.5px}
+.mv{display:flex;gap:6px}
+.mv button,.btn{min-width:44px;min-height:44px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;font:600 15px "Source Sans 3",sans-serif;cursor:pointer}
+.btn{padding:0 16px;margin-top:12px}
+.mv button:focus-visible,.btn:focus-visible,.tr textarea:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
+.mv button:disabled{opacity:.35;cursor:default}
+.blk{grid-template-columns:auto minmax(0,1fr) auto}
+.grip{min-width:36px;min-height:44px;border:0;background:none;color:var(--mute);font-size:20px;line-height:1;cursor:grab;touch-action:none;border-radius:6px}
+.grip:focus-visible{outline:2px solid var(--ember)}
+.blk.drag{opacity:.45}
+.blk.above{box-shadow:0 -4px 0 var(--ember)}
+.blk.below{box-shadow:0 4px 0 var(--ember)}
+body.dragging{user-select:none;cursor:grabbing}
+.tr{margin:6px 0 6px 18px;padding:6px 0 6px 14px;border-left:2px dashed var(--line);font-size:14.5px}
+.tr.flag{border-left-color:var(--ember)}
+.tr .lab{font-size:13px;font-weight:700;color:var(--mute)}
+.tr.flag .lab{color:var(--ember)}
+.tr textarea{width:100%;font:16px/1.4 "Source Sans 3",sans-serif;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 8px;resize:vertical;min-height:44px}
+.src li{margin-bottom:6px}
+.src a{color:var(--ink)}
+footer{border-top:1px solid var(--line)}
+@media(max-width:900px){.grid3{grid-template-columns:repeat(2,minmax(0,1fr))}#delivery .grid2{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){.grid2,.grid3,.tips{grid-template-columns:minmax(0,1fr)}.row{grid-template-columns:minmax(0,1fr);gap:6px}.bar{flex-wrap:wrap}.seg{min-height:40px;flex-basis:auto!important;flex-grow:1}.sv{grid-template-columns:8em minmax(0,1fr) 2.6em}table{font-size:14px}td:first-child{white-space:normal}.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--line)}.stack td{display:block;border:0;padding:3px 0}.stack td::before{content:attr(data-l);display:block;font-size:13px;color:var(--mute);font-weight:600}}
+</style>
+<script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
+</head>
+<body>
+
+<header class="band top">
+  <div class="wrap">
+    <h1>How sermons are built, and how the app could build them</h1>
+    <p class="lede">Most methods are variations on one move: find the single idea the text is saying, name the human need it meets, then shape the message so listeners travel from that need to God's answer. The app should offer these shapes as templates, not write the sermon for you.</p>
+    <div class="shapes" id="shapes"></div>
+    <div class="key"><span class="kt">Trouble or tension</span><span class="kg">Grace, answer or resolution</span><span class="kn">Text and explanation</span><span class="kk">The one big idea</span></div>
+  </div>
+</header>
+
+<nav class="nav" aria-label="Sections">
+  <a href="#types">Sermon types</a><a href="#methods">Prep methods</a><a href="#study">Bible study methods</a><a href="#rhythm">Prep rhythm</a><a href="#delivery">Delivery</a><a href="#tips">Speaking tips</a><a href="#blocks">Block builder</a><a href="#app">App features</a><a href="#sources">Sources</a>
+</nav>
+
+<section class="band" id="types">
+  <div class="wrap">
+    <h2>Sermon types differ by how tightly they stay with the text</h2>
+    <p>The classic split from John Broadus is topical, textual and expository, and later writers treat these as a gradient rather than hard boxes. Narrative and other forms overlap with all three. Many preachers argue a good teacher moves between them.</p>
+    <div class="scroll"><table class="stack">
+      <thead><tr><th>Type</th><th>What it is</th><th>Strength</th><th>Watch out for</th><th>Fits you for</th></tr></thead>
+      <tbody id="typeRows"></tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="band alt" id="methods">
+  <div class="wrap">
+    <h2>Six prep methods worth turning into templates</h2>
+    <p>Each one gives a different first question. The app can let you pick one per lesson, or combine them (for example Big Idea for the core sentence plus Four Pages for the flow).</p>
+    <div class="grid3" id="methodCards"></div>
+  </div>
+</section>
+
+<section class="band" id="study">
+  <div class="wrap">
+    <h2>Bible study methods cover the solo and group side</h2>
+    <p>These are the same engine as sermon prep, run for yourself or a table of men instead of a room. They map straight to the app's Solo and Discuss modes.</p>
+    <div class="grid3" id="studyCards"></div>
+  </div>
+</section>
+
+<section class="band alt" id="rhythm">
+  <div class="wrap grid2">
+    <div>
+      <h2>Prep works best in a cycle with simmer time</h2>
+      <p>One pastor writing for Leadership Journal starts text work ten days out, writes down every question he can't yet answer, and lets those questions steer his reading and thinking for the rest of the week. Another, writing for Crossway, works in five steps: text work, secondary reading, structuring, writing, and getting familiar with the message, with six to eight hours on the text alone.</p>
+      <p>Your current Forged rhythm (capture all week, compile Friday to Monday, slides, then PDF and podcast script) already follows this pattern. The app should mirror it rather than replace it.</p>
+    </div>
+    <div class="card">
+      <h3>Suggested app phases</h3>
+      <ol>
+        <li><b>Plan:</b> pick passage, type and method; set teach date.</li>
+        <li><b>Study:</b> read, observe, cross-references, word studies, open questions list.</li>
+        <li><b>Distill:</b> write the big idea (subject + complement) and the human need.</li>
+        <li><b>Shape:</b> arrange blocks from the chosen method.</li>
+        <li><b>Write:</b> lesson text, illustrations, application, slide markers.</li>
+        <li><b>Rehearse:</b> timing, delivery cues, practice run.</li>
+        <li><b>Teach and export:</b> teach view, then PDF, HTML, .docx, slides outline, podcast script.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="delivery">
+  <div class="wrap">
+    <h2>Delivery: most preachers carry something, few read it</h2>
+    <div class="grid2">
+      <div>
+        <p>Public-speaking texts list four methods: manuscript, memorized, extemporaneous (from notes or an outline) and impromptu. Preaching writers add the "digested manuscript": write it all out, absorb it, then preach without it.</p>
+        <p>A 1999 Leadership survey found 90% of preachers take something written into the pulpit:</p>
+        <div class="survey" id="survey"></div>
+        <p class="note">Leadership Survey, March 1999, via Christianity Today.</p>
+      </div>
+      <div class="scroll"><table class="stack">
+        <thead><tr><th>Method</th><th>Upside</th><th>Downside</th></tr></thead>
+        <tbody id="delRows"></tbody>
+      </table></div>
+    </div>
+  </div>
+</section>
+
+<section class="band alt" id="tips">
+  <div class="wrap">
+    <h2>Speaking tips the app can actually coach</h2>
+    <ul class="tips" id="tipList"></ul>
+  </div>
+</section>
+
+<section class="band alt" id="blocks">
+  <div class="wrap">
+    <h2>Block builder: write in pieces, rearrange, then stitch</h2>
+    <div class="grid2">
+      <div>
+        <p>Each section of a lesson is its own block (text, story, explanation, application, question, slide). Grab the handle and drag a block anywhere, the way Notion moves a whole section; arrow buttons do the same for keyboard users. Blocks can also be grouped under a section heading, so dragging the heading carries every block beneath it. Between every pair sits a transition slot.</p>
+        <p>A transition belongs to the <b>pair</b> of blocks around it. When you move a block, any pair that's new gets flagged for review, and the old transition is kept in case the pair comes back together. A review pass then walks you through each seam.</p>
+        <div class="card">
+          <h3>Transition kinds to offer</h3>
+          <ul>
+            <li><b>Review and preview:</b> sum up what was said, point to what's next.</li>
+            <li><b>Question:</b> raise the question the next block answers.</li>
+            <li><b>Big idea restatement:</b> repeat the core sentence in new words.</li>
+            <li><b>Turn:</b> move from trouble to grace, or from then to now.</li>
+            <li><b>Signpost:</b> a plain marker ("Second, ...").</li>
+          </ul>
+          <p class="note">AI can draft a transition from the two blocks on either side; you edit or reject it.</p>
+        </div>
+      </div>
+      <div>
+        <div class="bb-head"><h3>Try it</h3><span class="note" id="bbStat"></span></div>
+        <div id="bb"></div>
+        <button class="btn" id="bbReset" type="button">Reset example</button>
+        <p class="note">Sample lesson on Genesis 22 for illustration.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="app">
+  <div class="wrap">
+    <h2>What goes into Forge and Field, and when</h2>
+    <p>Phase 1 is the study and prep tool you'd use now. Phase 2 adds live listening and practice coaching.</p>
+    <div class="scroll"><table class="stack">
+      <thead><tr><th>Feature</th><th>What it does</th><th>Drawn from</th><th>Phase</th></tr></thead>
+      <tbody id="appRows"></tbody>
+    </table></div>
+  </div>
+</section>
+
+<footer class="band" id="sources">
+  <div class="wrap">
+    <h2>Sources</h2>
+    <ul class="src" id="srcList"></ul>
+  </div>
+</footer>
+
+<script>
+{
+const S=[
+ {n:"Big Idea",w:"Haddon Robinson",s:[["n","Text",2],["k","Subject + complement",3],["n","Explain",2],["n","Prove",2],["n","Apply",2]]},
+ {n:"Fallen Condition Focus",w:"Bryan Chapell",s:[["n","Text",2],["t","Human need it names",3],["g","Grace in Christ that meets it",3],["n","Response",2]]},
+ {n:"Homiletical Plot",w:"Eugene Lowry",s:[["t","Oops",2],["t","Ugh",2],["k","Aha",2],["g","Whee",2],["g","Yeah",2]]},
+ {n:"Four Pages",w:"Paul Scott Wilson",s:[["t","Trouble in the Bible",3],["t","Trouble in our world",3],["g","Grace in the Bible",3],["g","Grace in our world",3]]},
+ {n:"Me We God You We",w:"Andy Stanley",s:[["n","Me",1],["t","We",2],["g","God",3],["n","You",2],["g","We",2]]},
+ {n:"Inductive",w:"Fred Craddock",s:[["n","Story or question",3],["t","Wrestle",3],["n","Clues from text",3],["k","Listeners reach it",3]]}
+];
+document.getElementById('shapes').innerHTML=S.map(r=>`<div class="row"><b>${r.n}<small>${r.w}</small></b><div class="bar">${r.s.map(x=>`<div class="seg ${x[0]}" style="flex:${x[2]} 1 0">${x[1]}</div>`).join('')}</div></div>`).join('');
+
+const T=[
+ ["Expository","Explains a passage in its context; the text's main idea becomes the sermon's main idea, and its parts shape the outline.","Authority stays with the text; teaches people how to read the Bible.","Can become a running commentary with no single point.","One Story weeks built on one narrative passage"],
+ ["Textual","Takes its theme and main divisions from a short text, often one or two verses, but develops them more freely.","Anchored in Scripture yet flexible; good for a key verse.","Can drift from what the verse means in context.","Breakfast talks, Christmas dinner devotional"],
+ ["Topical","Starts with a subject (marriage, work, anger) and gathers passages from across the Bible.","Meets felt needs; good for series and events.","Risks proof-texting; the preacher's ideas can outrank the text.","Retreat sessions, men's issues series"],
+ ["Narrative","Tells the biblical story as a story, sometimes first person as a character, letting tension and resolution carry the meaning.","Memorable; draws listeners in emotionally.","The point can get lost; needs a clear idea underneath.","Patriarch stories (Abraham, Isaac, Jacob)"],
+ ["Biographical","Follows one person's life across Scripture.","Concrete models of faith and failure.","Can turn into moralism (be like David).","Character studies for men"],
+ ["Thematic or series","Traces one theme or book across several weeks.","Builds depth and continuity.","Weekly pieces must still stand alone.","The One Story arc itself"],
+ ["Occasional","Weddings, funerals, baptisms, holidays.","Speaks into a moment people remember.","Time is short; must fit the occasion.","Christmas dinner, memorials"]
+];
+document.getElementById('typeRows').innerHTML=T.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('');
+
+const M=[
+ ["Big Idea","Haddon Robinson",["Pick a complete unit of thought.","Study it; state its idea as subject (what is it talking about?) plus complement (what is it saying about that?).","Test the idea: What does it mean? Is it true? What difference does it make?","Restate it for today's listeners as the homiletical idea.","Set purpose, shape and outline; every point serves the one idea."],"A two-field Big Idea builder, and a counter showing how often the idea appears in your draft (Robinson-style advice is to say it 5 to 7 times, varied)."],
+ ["Fallen Condition Focus","Bryan Chapell",["Ask why the text was written: what shared human condition does it address?","Name that condition for then and now.","Show how God's grace, ultimately in Christ, meets it.","Apply from grace, not just 'try harder'."],"A required FCF field and a check that flags lessons that end in 'be' or 'do' with no grace."],
+ ["Homiletical Plot","Eugene Lowry",["Upset the equilibrium (Oops).","Analyse the discrepancy (Ugh).","Disclose the clue to resolution (Aha).","Experience the gospel (Whee).","Anticipate the consequences (Yeah)."],"A five-stage narrative template, ideal for Old Testament story weeks."],
+ ["Four Pages","Paul Scott Wilson",["Trouble in the Bible.","Trouble in our world.","Grace in the Bible.","Grace in our world.","One theme sentence ties all four together."],"A balance meter showing how much of the lesson is trouble versus grace."],
+ ["Me We God You We","Andy Stanley",["Me: how I struggle with this.","We: how we all do.","God: what the Bible says.","You: what you should do.","We: how we live it together."],"A conversational template that suits a men's group and a table discussion."],
+ ["Inductive","Fred Craddock",["Start with experience or a question, not the conclusion.","Move through the text with the listeners.","Let them arrive at the point; one idea is enough.","Keep unity so it doesn't become casual chat."],"A question-first layout that converts directly into discussion questions."]
+];
+document.getElementById('methodCards').innerHTML=M.map(m=>`<div class="card"><h3>${m[0]}</h3><p class="note">${m[1]}</p><ol>${m[2].map(x=>`<li>${x}</li>`).join('')}</ol><div class="fit"><strong>In the app:</strong> ${m[3]}</div></div>`).join('');
+
+const B=[
+ ["Inductive (OIA)","Solo or teaching prep",["Observe: what does it say?","Interpret: what does it mean?","Apply: what will I do?","Some add Author, Background and Context first."],"Default Study workspace: three panes that fill in as you go."],
+ ["SOAP","Daily solo study",["Scripture: write out the verse.","Observation: what stands out.","Application: how it hits my life.","Prayer: respond to God."],"Quick daily journal card, exportable to Box or your notes."],
+ ["Discovery Bible Study","Small groups, including seekers",["Read the passage several times, retell it.","What does it say about God? About people?","What will I obey ('I will' statements)?","Who will I share it with?","Next week: how did it go?"],"Discuss mode: prints a facilitator sheet and tracks 'I will' follow-ups. Works with groups of 3 to 6."]
+];
+document.getElementById('studyCards').innerHTML=B.map(m=>`<div class="card"><h3>${m[0]}</h3><p class="note">${m[1]}</p><ul>${m[2].map(x=>`<li>${x}</li>`).join('')}</ul><div class="fit"><strong>In the app:</strong> ${m[3]}</div></div>`).join('');
+
+const V=[["Manuscript",26],["Detailed outline",38],["Skeleton outline",26],["No notes",5],["Other",4]];
+document.getElementById('survey').innerHTML=V.map(v=>`<div class="sv"><span>${v[0]}</span><i style="width:${v[1]/38*100}%"></i><em>${v[1]}%</em></div>`).join('');
+
+const D=[
+ ["Manuscript","Precise wording; good for exact theology and timing.","Reading breaks rapport; written style sounds stiff unless written for the ear."],
+ ["Extemporaneous","Conversational, eye contact, adapts to the room.","Needs a simple structure and real practice."],
+ ["Digested manuscript","Best of both: full thinking, free delivery.","Takes the most prep time."],
+ ["Memorized","Polished, no notes.","Fragile if you lose your place; widely discouraged for sermons."],
+ ["Impromptu","Ready on short notice.","Thin content and nerves; for emergencies only."]
+];
+document.getElementById('delRows').innerHTML=D.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('');
+
+const P=[
+ ["Write for the ear","Short sentences, repetition and signposts. A manuscript meant to be heard reads differently from one meant to be read."],
+ ["Keep a structure you could remember","If the flow is too complex to recall without notes, it's probably too complex to follow on one hearing."],
+ ["Say the big idea several times","Vary the wording, but return to it so it sticks."],
+ ["Vary pace, pitch and volume","Slow down for weight, speed up at transitions. A flat voice suggests you aren't moved by your own message."],
+ ["Use pauses on purpose","Silence after a key line lets it land and helps you reset your speed. Mark pauses in your notes."],
+ ["Look at one person at a time","Hold eye contact with individuals for about three to five seconds, spread across the room."],
+ ["Start fast","Open with the tension or a story, not housekeeping."],
+ ["Stand grounded","Feet about shoulder width, head up, free to turn; gestures that match the words."],
+ ["Record a practice run","Listen back, then add cues like 'slow', 'pause' or 'emphasize' to your notes. Cut filler words."],
+ ["Ease off the notes","Try telling one story without the page, then a whole section, until the outline is enough."]
+];
+document.getElementById('tipList').innerHTML=P.map(p=>`<li><b>${p[0]}</b>${p[1]}</li>`).join('');
+
+const A=[
+ ["Block builder","Write each section as its own block, reorder freely, and review the transition at every seam; moved blocks flag new seams.","Sermon Design 3's movements; transition practice","p1"],
+ ["Method templates","Pick Big Idea, FCF, Plot, Four Pages, Me-We-God-You-We, Inductive or a custom form; each loads its blocks.","All six methods; Sermon Design 3's block idea","p1"],
+ ["Type tag","Expository, textual, topical, narrative, biographical, series, occasional; filters the library.","Broadus and later types","p1"],
+ ["Big Idea builder","Subject and complement fields, the three test questions, and a count of how often it appears.","Robinson","p1"],
+ ["Need and grace check","FCF field plus a trouble/grace balance meter.","Chapell, Wilson","p1"],
+ ["Study workspace","OIA panes, SOAP card, cross-references, word studies, open-questions list.","Inductive, SOAP","p1"],
+ ["Solo / Teach / Discuss modes","Same study, three outputs: journal, lesson with slide markers, or DBS facilitator sheet.","DBS, Craddock","p1"],
+ ["Prep cycle","Phases with dates counted back from teach day; optional push to Todoist.","Ten-day cycle, Crossway steps","p1"],
+ ["Delivery formats","One lesson renders as full manuscript, detailed outline, skeleton or a single note card.","Delivery methods","p1"],
+ ["Oral-style check","Flags long sentences and missing signposts; marks cue tags like [pause] and [slow].","Write for the ear","p1"],
+ ["Exports","HTML, PDF, .docx, Markdown, slide outline, podcast script; share sheet to Box, Drive, OneDrive, Dropbox.","Your current workflow","p1"],
+ ["Rehearse mode","Practice timer per section; on-device practice recording shows pace, pauses and filler words, then deletes the audio.","Speaking tips","p2"],
+ ["Live listen","No audio saved: spoken references pop up as passage cards; tap to add a bullet or see related passages.","Velora-style relay","p2"]
+];
+document.getElementById('appRows').innerHTML=A.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td><span class="ph ${r[3]}">${r[3]==='p1'?'Phase 1':'Phase 2'}</span></td></tr>`).join('');
+
+const R=[
+ ["Christianity Today: The Homiletic Incline (topical, textual, expository)","https://www.christianitytoday.com/pastors/?p=27406"],
+ ["Christianity Today: What is textual preaching?","https://www.christianitytoday.com/pastors/?p=28364"],
+ ["Ministry Magazine: Haddon Robinson interview, Bullets or buckshot","https://www.ministrymagazine.org/archive/2000/09/bullets-or-buckshot"],
+ ["Christianity Today: Big Idea quick guide (repeat 5 to 7 times)","https://www.christianitytoday.com/pastors/?p=62389"],
+ ["Logos Sermons: prep steps based on Robinson","https://sermons.logos.com/sermons/532019-sermon-preparation"],
+ ["Wikipedia: Bryan Chapell (Fallen Condition Focus)","https://en.wikipedia.org/wiki/Bryan_Chapell"],
+ ["In die Skriflig: Lowry's homiletical plot","https://doaj.org/article/f228d55feef3410ab3093466d1e6a902"],
+ ["Christianity Today: Andy Stanley, My Formula for Preaching","https://www.christianitytoday.com/pastors/?p=28300"],
+ ["Marginal Virtues: Wilson's Four Pages series","https://marginalvirtues.blogspot.com/2010/12/four-pages-trouble-in-bible.html"],
+ ["Ministry Magazine: Fred Craddock on inductive preaching","https://www.ministrymagazine.org/archive/1998/07/inductive-preaching"],
+ ["Logos: How to do an inductive Bible study","https://www.logos.com/how-to/inductive-bible-study"],
+ ["Bible Gateway: 6 Bible study methods (incl. SOAP)","https://www.biblegateway.com/blog/2023/03/6-bible-study-methods-you-need-to-know-and-try/"],
+ ["Cru: Discovery Bible Study","https://cru.org/train-and-grow/bible-studies/how-to-reach-the-world-with-a-new-style-of-bible-study.html"],
+ ["Christianity Today: Having Something to Say (ten-day cycle)","https://www.christianitytoday.com/?p=165420"],
+ ["Crossway: 5 Steps in My Sermon Preparation Process","https://www.crossway.org/articles/5-steps-in-my-sermon-preparation-process/"],
+ ["Christianity Today: The Great Delivery Debate (1999 survey)","https://christianitytoday.com/2000/01/great-delivery-debate"],
+ ["ChurchLeaders: Extemporaneous and digested-manuscript preaching","https://churchleaders.com/pastors/preaching-teaching/167095-ted-smith-preach-without-notes.html/2"],
+ ["Working Preacher: The Four Ds, Delivery","https://www.workingpreacher.org/sermon-development/the-four-ds-delivery"],
+ ["Christianity Today: Eye communication","https://www.christianitytoday.com/pastors/?p=62385"],
+ ["ChurchLeaders: 10 sermon habits that lose the congregation","https://churchleaders.com/pastors/2209256-10-sermon-habits-that-quietly-lose-the-congregation.html"],
+ ["University of Puget Sound: Delivery tips","https://www.pugetsound.edu/sites/default/files/2022-11/delivery-tipsdocx.pdf"]
+];
+const B0=[
+ {id:"a",c:"t",k:"Opening story",x:"A father's hardest decision"},
+ {id:"b",c:"",k:"Text",x:"Genesis 22:1-14 read aloud"},
+ {id:"c",c:"t",k:"Explanation",x:"The test: why would God ask this?"},
+ {id:"d",c:"k",k:"Big idea",x:"God provides what He asks of us"},
+ {id:"e",c:"",k:"Application",x:"What are you holding back?"},
+ {id:"f",c:"",k:"Discussion question",x:"Where have you seen God provide?"}
+];
+const T0={"a>b":"That's a hard story. Abraham's was harder. Turn with me to Genesis 22.","b>c":"Notice the first line: God tested Abraham.","c>d":"Here's the answer the mountain gives:","d>e":"So if He provides, what are we holding back?"};
+let bl,tr;
+const ld=()=>{bl=B0.map(b=>({...b}));tr={...T0}};ld();
+try{const s=JSON.parse(localStorage.getItem('ffbb')||'null');if(s&&s.bl&&s.tr){bl=s.bl;tr=s.tr}}catch(e){}
+const sv=()=>{try{localStorage.setItem('ffbb',JSON.stringify({bl,tr}))}catch(e){}};
+const esc=s=>s.replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+const bb=document.getElementById('bb'),st=document.getElementById('bbStat');
+const draw=()=>{let h='',open=0;bl.forEach((b,i)=>{h+=`<div class="blk ${b.c}" data-i="${i}"><button type="button" class="grip" data-g="${i}" aria-label="Drag ${b.k}">⋮⋮</button><div><small>${b.k}</small><b>${esc(b.x)}</b></div><div class="mv"><button type="button" data-u="${i}" aria-label="Move ${b.k} up" ${i?'':'disabled'}>↑</button><button type="button" data-d="${i}" aria-label="Move ${b.k} down" ${i<bl.length-1?'':'disabled'}>↓</button></div></div>`;if(i<bl.length-1){const key=b.id+'>'+bl[i+1].id,v=tr[key]||'';if(!v)open++;h+=`<div class="tr ${v?'':'flag'}"><div class="lab">${v?'Transition':'New seam: needs a transition'}</div><textarea id="tr-${key.replace('>','-')}" data-k="${key}" rows="2" placeholder="Write a transition from ${b.k.toLowerCase()} to ${bl[i+1].k.toLowerCase()}">${esc(v)}</textarea></div>`}});bb.innerHTML=h;st.textContent=open?`${open} seam${open>1?'s':''} to review`:'All seams have transitions'};
+bb.addEventListener('click',e=>{const u=e.target.dataset.u,d=e.target.dataset.d;let i,j;if(u!==undefined){i=+u;j=i-1}else if(d!==undefined){i=+d;j=i+1}else return;[bl[i],bl[j]]=[bl[j],bl[i]];sv();draw();const f=bb.querySelector(`[data-${u!==undefined?'u':'d'}="${j}"]`);if(f&&!f.disabled)f.focus()});
+bb.addEventListener('input',e=>{const k=e.target.dataset.k;if(!k)return;tr[k]=e.target.value;sv();const w=e.target.parentElement,has=!!e.target.value.trim();w.classList.toggle('flag',!has);w.querySelector('.lab').textContent=has?'Transition':'New seam: needs a transition';st.textContent=(()=>{const n=bl.slice(0,-1).filter((b,i)=>!(tr[b.id+'>'+bl[i+1].id]||'').trim()).length;return n?`${n} seam${n>1?'s':''} to review`:'All seams have transitions'})()});
+let dg=null,tgt=null;
+const clr=()=>bb.querySelectorAll('.blk').forEach(n=>n.classList.remove('above','below'));
+bb.addEventListener('pointerdown',e=>{const g=e.target.closest('.grip');if(!g)return;e.preventDefault();dg=+g.dataset.g;tgt=dg;g.setPointerCapture(e.pointerId);g.closest('.blk').classList.add('drag');document.body.classList.add('dragging')});
+bb.addEventListener('pointermove',e=>{if(dg===null)return;const ns=[...bb.querySelectorAll('.blk')];let t=0;ns.forEach((n,j)=>{if(j===dg)return;const r=n.getBoundingClientRect();if(e.clientY>r.top+r.height/2)t++});tgt=t;clr();const others=ns.filter((n,j)=>j!==dg);if(t<others.length)others[t].classList.add('above');else others[others.length-1].classList.add('below')});
+const end=()=>{if(dg===null)return;document.body.classList.remove('dragging');const it=bl.splice(dg,1)[0];bl.splice(tgt,0,it);dg=null;sv();draw()};
+bb.addEventListener('pointerup',end);bb.addEventListener('pointercancel',end);
+document.getElementById('bbReset').addEventListener('click',()=>{ld();sv();draw()});
+draw();
+
+document.getElementById('srcList').innerHTML=R.map(r=>`<li><a href="${r[1]}">${r[0]}</a></li>`).join('');
+}
+</script>
+</body>
+</html>
